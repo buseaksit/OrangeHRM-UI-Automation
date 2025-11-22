@@ -44,109 +44,125 @@ OrangeHRM-UI-Automation
 
 ## ⚙️ **Setup Instructions**
 
-### 1️⃣ **Install dependencies**
+### 1️⃣ Install dependencies
 ```bash
 npm install
-2️⃣ Install Playwright Browsers
-npx playwright install
+```
 
-3️⃣ Run tests
+### 2️⃣ Install Playwright Browsers
+```bash
+npx playwright install
+```
+
+### 3️⃣ Run tests
 
 Full test run:
-
+```bash
 npx playwright test
-
+```
 
 Run headful:
-
+```bash
 npx playwright test --headed
-
+```
 
 Run a specific file:
-
+```bash
 npx playwright test tests/dashboard.spec.js
+```
 
-🧪 Reports
-📊 Playwright HTML Report
+### 📊 Reports
+
+#### 🟩 Playwright HTML Report
+```bash
 npx playwright show-report
+```
+### 🧵 Allure Report
 
-🧵 Allure Report
-
-Generate report:
-
+Generate the report:
+```bash
 allure generate allure-results --clean -o allure-report
+```
 
-
-Open report:
-
+Open the report:
+```bash
 allure open allure-report
+```
 
-🧩 Page Object Model (POM)
+---
 
-This framework uses POM to keep tests clean and maintainable:
+## 🧩 Page Object Model (POM)
 
-Each page has its own class under /pages
+This framework uses the **Page Object Model** to keep tests clean, readable, and maintainable.
 
-Locators are defined once and reused everywhere
+- Each page has its own class under `/pages`
+- Locators are defined once and reused everywhere
+- Test files contain only **test logic**, not selectors or UI details
 
-Test files only contain test logic — not selectors
-
-Example:
-
+### Example:
+```js
 class DashboardPage {
   constructor(page) {
     this.page = page;
     this.actualWidgetNames = page.locator(".orangehrm-dashboard-widget-name");
   }
 }
+```
 
-🧰 Fixtures
+---
 
-Playwright fixtures are used to:
+## 🧰 Fixtures
 
-initialize pages
+Playwright fixtures help with:
 
-provide custom navigation methods
+- initializing POM classes  
+- navigating between pages  
+- reusing login/session setup  
+- sharing test utilities and data  
 
-reuse login setup
-
-share test data
-
-Example:
-
+### Example:
+```js
 test("Validate Widget Titles", async ({ dashboardPage }) => {
   await expect(dashboardPage.actualWidgetNames.first())
     .toHaveText("Time at Work");
 });
+```
 
-🔐 Environment Configuration
+---
 
-Environment variables are loaded from .env files:
+## 🔐 Environment Configuration
 
+Environment variables are stored in `.env` files:
+
+```
 BASE_URL=
 USERNAME=
 PASSWORD=
 HEADLESS=true
+```
 
-The main config dynamically uses them.
+Your `playwright.config.js` dynamically loads these values, making the framework flexible across environments.
 
-🧼 .gitignore
+---
 
-This project ignores:
+## 🧼 .gitignore
 
-node_modules
+This project ignores sensitive and generated files:
 
-test-results
+- `node_modules/`
+- `test-results/`
+- `allure-results/`
+- `playwright-report/`
+- `.env` and environment files
 
-allure-results
+This keeps the repository clean and secure.
 
-playwright-report
+---
 
-.env files
+## 🧑‍💻 Author
+
+**Buse Aksit**  
+UI Automation Engineer | SDET  
+🔗 GitHub: https://github.com/buseaksit
 
 
-🧑‍💻 Author
-
-Buse Aksit
-UI Automation Engineer | SDET
-GitHub: https://github.com/buseaksit
